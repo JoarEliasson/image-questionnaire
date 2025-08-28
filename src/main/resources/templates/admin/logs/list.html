@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Auth Logs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body{font-family:system-ui,sans-serif;padding:2rem}
+        table{border-collapse:collapse;width:100%}
+        th,td{border:1px solid #ddd;padding:8px}
+        th{background:#f5f7fa;text-align:left}
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/admin">← Back to Dashboard</a>
+</nav>
+<h1>Auth Logs</h1>
+<table>
+    <tr>
+        <th>When</th>
+        <th>Actor Type</th>
+        <th>Actor ID</th>
+        <th>Event</th>
+        <th>IP</th>
+        <th>User-Agent</th>
+    </tr>
+    <tr th:each="l : ${items}">
+        <td th:text="${l.at}">2025-08-14T14:00:00Z</td>
+        <td th:text="${l.actorType}">ADMIN</td>
+        <td th:text="${l.actorId}">admin</td>
+        <td th:text="${l.event}">login</td>
+        <td th:text="${l.ip}">127.0.0.1</td>
+        <td th:text="${l.userAgent}">UA</td>
+    </tr>
+</table>
+</body>
+</html>

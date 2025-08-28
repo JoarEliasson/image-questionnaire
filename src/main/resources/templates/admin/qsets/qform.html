@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>Edit Question</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>body{font-family:system-ui,sans-serif;padding:2rem} form{display:grid;gap:12px;max-width:640px}</style>
+</head>
+<body>
+<nav>
+    <a th:href="@{|/admin/question-sets/${version}/questions|}">← Back to Questions</a>
+</nav>
+<h1 th:text="${q.id} == null ? 'New Question' : 'Edit Question'">Question</h1>
+<form th:action="${q.id} == null ? @{'/admin/question-sets/' + ${version} + '/questions'} : @{'/admin/question-sets/' + ${version} + '/questions/' + ${q.id}}" method="post">
+    <label>Index in Set (1-15) <input type="number" name="indexInSet" th:value="${q.indexInSet}" min="1" max="15" required></label>
+    <label>Text <input type="text" name="text" th:value="${q.text}" required></label>
+    <label>Min label <input type="text" name="minLabel" th:value="${q.minLabel}"></label>
+    <label>Max label <input type="text" name="maxLabel" th:value="${q.maxLabel}"></label>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

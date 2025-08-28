@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>Invitation Code</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body{font-family:system-ui,sans-serif;padding:2rem}
+        .code{font-size:1.8rem; font-weight:700; padding:.6rem 1rem; background:#f3f5f8; display:inline-block; border-radius:10px}
+    </style>
+</head>
+<body>
+<nav>
+    <a th:href="@{|/admin/studies/${studyId}/invitations|}">← Back to Invitations</a>
+</nav>
+<h1>Generated Code</h1>
+<p>Copy this code now; we only show it once. You’ll send it via email in the next step.</p>
+<div class="code" th:text="${code}">ABCD-EFGH-IJKL</div>
+<p>Email: <strong th:text="${inv.email}">email</strong></p>
+</body>
+</html>

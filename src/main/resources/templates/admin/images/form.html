@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>Edit Image</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>body{font-family:system-ui,sans-serif;padding:2rem} form{display:grid;gap:12px;max-width:520px}</style>
+</head>
+<body>
+<nav>
+    <a th:href="@{|/admin/studies/${studyId}/images|}">← Back to Images</a>
+</nav>
+<h1 th:text="${image.id} == null ? 'New Image' : 'Edit Image'">Image</h1>
+<form th:action="${image.id} == null ? @{'/admin/studies/' + ${studyId} + '/images'} : @{'/admin/studies/' + ${studyId} + '/images/' + ${image.id}}"
+      method="post" enctype="multipart/form-data">
+    <label>Order Index <input type="number" name="orderIndex" th:value="${image.orderIndex}" min="1" required></label>
+    <label>Label <input type="text" name="label" th:value="${image.label}"></label>
+
+    <fieldset>
+        <legend>Upload new image (optional)</legend>
+        <input type="file" name="file" accept="image/*">
+    </fieldset>
+
+    <label>Or set Storage Path manually
+        <input type="text" name="storagePath" th:value="${image.storagePath}" placeholder="/uploads/... or /images/demo1.jpg">
+    </label>
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Save</button>
+</form>
+
+
+</body>
+</html>

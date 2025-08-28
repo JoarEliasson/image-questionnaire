@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>Images</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>body{font-family:system-ui,sans-serif;padding:2rem} img{max-height:60px}</style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/admin/studies}">← Back to Studies</a>
+</nav>
+<h1>Images for <span th:text="${study.name}">Study</span></h1>
+<p><a th:href="@{|/admin/studies/${study.id}/images/new|}">+ New image</a></p>
+<table border="1" cellpadding="6" cellspacing="0">
+    <tr><th>Order</th><th>Label</th><th>Preview</th><th>Path</th><th>Actions</th></tr>
+    <tr th:each="i : ${items}">
+        <td th:text="${i.orderIndex}">1</td>
+        <td th:text="${i.label}">Label</td>
+        <td><img th:src="${i.storagePath}" alt=""></td>
+        <td th:text="${i.storagePath}">/images/demo.jpg</td>
+        <td>
+            <a th:href="@{|/admin/studies/${study.id}/images/${i.id}/edit|}">Edit</a> |
+            <form th:action="@{|/admin/studies/${study.id}/images/${i.id}/delete|}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" onclick="return confirm('Delete image?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

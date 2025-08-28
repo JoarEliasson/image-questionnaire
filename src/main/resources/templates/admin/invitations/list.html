@@ -1,0 +1,48 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>Invitations</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>body{font-family:system-ui,sans-serif;padding:2rem}</style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/admin/studies}">← Back to Studies</a>
+    |
+    <a th:href="@{|/admin/studies/${study.id}/invitations/new|}">+ New invitation</a>
+</nav>
+<h1>Invitations for <span th:text="${study.name}">Study</span></h1>
+<table border="1" cellpadding="6" cellspacing="0">
+    <tr>
+        <th>Email</th><th>Status</th><th>Created</th><th>Sent</th><th>First Login</th><th>Completed</th><th>Expires</th><th>Last Result</th><th>Actions</th>
+    </tr>
+    <tr th:each="i : ${items}">
+        <td th:text="${i.email}">email</td>
+        <td th:text="${i.status}">created</td>
+        <td th:text="${i.createdAt}">-</td>
+        <td th:text="${i.sentAt}">-</td>
+        <td th:text="${i.firstLoginAt}">-</td>
+        <td th:text="${i.completedAt}">-</td>
+        <td th:text="${i.expiresAt}">-</td>
+        <td th:text="${i.lastSendResult}">-</td>
+        <td>
+            <form th:action="@{|/admin/studies/${study.id}/invitations/${i.id}/generate-code|}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" title="Show the code once">Generate code</button>
+            </form>
+            <form th:action="@{|/admin/studies/${study.id}/invitations/${i.id}/send-email|}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" title="Generate a fresh code and email it">Generate &amp; Send email</button>
+            </form>
+            <form th:action="@{|/admin/studies/${study.id}/invitations/${i.id}/expire|}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit">Expire</button>
+            </form>
+            <form th:action="@{|/admin/studies/${study.id}/invitations/${i.id}/delete|}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" onclick="return confirm('Delete invitation?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

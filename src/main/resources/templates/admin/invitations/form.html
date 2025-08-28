@@ -1,0 +1,18 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>New Invitation</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>body{font-family:system-ui,sans-serif;padding:2rem} form{display:grid;gap:12px;max-width:520px}</style>
+</head>
+<body>
+<nav>
+    <a th:href="@{|/admin/studies/${studyId}/invitations|}">← Back to Invitations</a>
+</nav>
+<h1>New Invitation</h1>
+<form th:action="@{'/admin/studies/' + ${studyId} + '/invitations'}" method="post">
+    <label>Email <input type="email" name="email" th:value="${inv.email}" required></label>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>

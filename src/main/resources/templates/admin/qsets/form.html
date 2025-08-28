@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>Edit Question Set</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>body{font-family:system-ui,sans-serif;padding:2rem} form{display:grid;gap:12px;max-width:520px}.err{color:crimson}</style>
+</head>
+<body>
+<nav><a href="/admin/question-sets">← Back</a></nav>
+<h1 th:text="${qset.version} == null ? 'New Question Set' : 'Edit Question Set'"></h1>
+<p class="err" th:if="${error}" th:text="${error}"></p>
+<form th:action="${qset.version} == null ? @{/admin/question-sets} : @{'/admin/question-sets/' + ${qset.version}}" method="post">
+    <label>Version <input type="number" name="version" th:value="${qset.version}" th:disabled="${qset.version} != null" min="1" required></label>
+    <label>Title <input type="text" name="title" th:value="${qset.title}" required></label>
+    <label><input type="checkbox" name="locked" th:checked="${qset.locked}"> Locked</label>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,44 @@
+spring:
+  config:
+    import: optional:file:./config/app.properties
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  flyway:
+    enabled: true
+
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:1025}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${SMTP_AUTH:false}
+          starttls:
+            enable: ${SMTP_STARTTLS:false}
+
+server:
+  port: ${PORT:8080}
+
+app:
+  domain: ${APP_DOMAIN:http://localhost:8080}
+  code-ttl-minutes: ${APP_CODE_TTL_MINUTES:20160}
+  upload-dir: ${APP_UPLOAD_DIR:./data/uploads}
+  pre-survey:
+    age-bands: ["18-24","25-34","35-44","45-54","55-64","65+"]
+    sex-options: ["Female","Male","Intersex","Prefer not to say"]
+

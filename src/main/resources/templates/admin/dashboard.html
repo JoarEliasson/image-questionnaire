@@ -1,0 +1,53 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; }
+        nav a { margin-right: 1rem; }
+        nav form { display:inline; margin-left: 1rem; }
+        .cards { display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top:1rem; }
+        .card { background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.06); padding:16px; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/studies">Studies</a>
+    <a href="/admin/question-sets">Question Sets</a>
+    <a href="/admin/logs">Auth Logs</a>
+    <a href="/admin/exports/responses.csv">Responses CSV</a>
+    <a href="/admin/exports/pre-survey.csv">Pre-survey CSV</a>
+    <a href="/admin/exports/invitations.csv">Invitations CSV</a>
+
+    <form action="/admin/logout" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+
+<h1>Admin</h1>
+<div class="cards">
+    <div class="card">
+        <h3>Studies</h3>
+        <p>Create/edit studies, manage images and invitations.</p>
+        <p><a href="/admin/studies">Open Studies</a></p>
+    </div>
+    <div class="card">
+        <h3>Question Sets</h3>
+        <p>Manage question sets and their 15 questions.</p>
+        <p><a href="/admin/question-sets">Open Question Sets</a></p>
+    </div>
+    <div class="card">
+        <h3>Exports</h3>
+        <ul>
+            <li><a href="/admin/exports/responses.csv">Responses</a></li>
+            <li><a href="/admin/exports/pre-survey.csv">Pre-survey</a></li>
+            <li><a href="/admin/exports/invitations.csv">Invitations</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

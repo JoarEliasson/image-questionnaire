@@ -1,0 +1,77 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Question</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root { --pad: 16px; }
+        body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#f6f7f9; color:#222; }
+        .wrap { max-width: 980px; margin: 0 auto; padding: var(--pad); }
+        .progress { color: #555; margin: 8px 0 16px; font-size: .95rem; }
+        .image-box { background:#e9ecf1; display:flex; align-items:center; justify-content:center; min-height: 50vh; border-radius: 12px; overflow:hidden; }
+        .image-box img { width:100%; height:auto; display:block; }
+        .qpanel { background:#fff; margin-top: 12px; padding: 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+        .qtext { font-size: 1.1rem; margin: 0 0 8px; }
+        .slider-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+        .labels { display:flex; justify-content: space-between; font-size: .9rem; color:#666; margin-top: 6px; }
+        input[type=range] { width: 100%; }
+        .actions { margin-top: 12px; display:flex; justify-content:flex-end; gap: 12px; }
+        button[disabled] { opacity: .5; cursor:not-allowed; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="progress" th:text="'Image ' + ${imageOrdinal} + '/' + ${totalImages} + ' • Q ' + ${questionIndex} + '/' + ${questionsPerImage}"></div>
+
+    <div class="image-box">
+        <img th:if="${imageUrl != null}" th:src="${imageUrl}" alt="stimulus image">
+        <div th:if="${imageUrl == null}" style="color:#666;padding:40px;">No image configured</div>
+    </div>
+
+    <form class="qpanel" method="post" th:action="@{/responses}" id="qform">
+        <p class="qtext" th:text="${questionText}">Question text</p>
+        <div class="slider-row">
+            <span th:text="${sliderMin}">1</span>
+            <input type="range" name="value" th:attr="min=${sliderMin},max=${sliderMax},step=1" value="" id="slider">
+            <span th:text="${sliderMax}">8</span>
+        </div>
+        <div class="labels">
+            <span th:text="${minLabel} ?: ''"></span>
+            <span id="curVal" style="font-weight:600;">–</span>
+            <span th:text="${maxLabel} ?: ''"></span>
+        </div>
+        <input type="hidden" name="timeMs" id="timeMs">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="actions">
+            <button type="submit" id="nextBtn" disabled>Next</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    (function(){
+        var slider = document.getElementById('slider');
+        var nextBtn = document.getElementById('nextBtn');
+        var curVal = document.getElementById('curVal');
+        var start = Date.now();
+        var timeMs = document.getElementById('timeMs');
+
+        var min = parseInt(slider.getAttribute('min'),10);
+        var max = parseInt(slider.getAttribute('max'),10);
+        var mid = Math.floor((min + max) / 2); // 1..8 -> 4
+        slider.value = String(mid);
+        curVal.textContent = String(mid);
+        nextBtn.disabled = false;
+
+        slider.addEventListener('input', function(){
+            curVal.textContent = slider.value;
+        });
+        document.getElementById('qform').addEventListener('submit', function(){
+            timeMs.value = Date.now() - start;
+        });
+    })();
+</script>
+
+</body>
+</html>
